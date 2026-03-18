@@ -68,14 +68,14 @@ export default function ImportAiPage() {
       <div className="flex items-center gap-3 mb-6">
         <span className="text-2xl">📄</span>
         <div>
-          <h1 className="text-2xl font-bold text-white">Import Assistido de Escopo</h1>
+          <h1 className="text-2xl font-bold text-app">Import Assistido de <em className="italic text-[#8B0000]">Escopo</em></h1>
           <p className="text-gray-400 text-sm">IA-01 · Powered by Claude claude-sonnet-4-6</p>
         </div>
       </div>
 
       {!preview ? (
         /* Step 1: Input do documento */
-        <div className="bg-[#1a1a2e] rounded-xl p-6 border border-gray-800">
+        <div className="bg-(--background) rounded-xl p-6 border border-(--border)">
           <p className="text-gray-300 text-sm mb-4">
             Cole o texto do escopo, proposta comercial, transcrição de discovery ou backlog.
             A IA irá estruturar em Épicos → Features → Histórias → Tarefas.
@@ -85,7 +85,7 @@ export default function ImportAiPage() {
             onChange={(e) => setDocumentText(e.target.value)}
             rows={14}
             placeholder="Cole o documento de escopo aqui..."
-            className="w-full rounded-lg bg-[#16213e] border border-gray-700 text-white p-4 text-sm resize-none focus:outline-none focus:border-[#8B0000] transition-colors"
+            className="w-full rounded-lg bg-(--card-deep) border border-(--border) text-app p-4 text-sm resize-none focus:outline-none focus:border-[#8B0000] transition-colors"
           />
           <div className="flex items-center justify-between mt-4">
             <span className="text-xs text-gray-500">
@@ -105,10 +105,10 @@ export default function ImportAiPage() {
         <div className="space-y-4">
           <AiReviewBanner message="Revise o backlog sugerido antes de confirmar. Você pode editar, remover ou adicionar itens." />
 
-          <div className="bg-[#1a1a2e] rounded-xl border border-gray-800">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-800">
+          <div className="bg-(--background) rounded-xl border border-(--border)">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-(--border)">
               <div>
-                <h2 className="text-white font-semibold">
+                <h2 className="text-app font-semibold">
                   Backlog Sugerido · {totalItems} itens
                 </h2>
                 {preview.summary && (
@@ -137,19 +137,19 @@ export default function ImportAiPage() {
                 <div key={ei} className="border border-purple-800/40 rounded-lg">
                   <div className="flex items-center gap-2 px-4 py-3 bg-purple-900/20 rounded-t-lg">
                     <span className="text-xs px-2 py-0.5 bg-purple-800/60 text-purple-300 rounded font-mono">EPIC</span>
-                    <span className="text-white font-medium text-sm">{epic.title}</span>
+                    <span className="text-app font-medium text-sm">{epic.title}</span>
                     {epic.needsClarification && (
                       <span className="ml-auto text-xs text-orange-400">⚠ Requer clarificação</span>
                     )}
                   </div>
                   {epic.children?.map((feature: any, fi: number) => (
-                    <div key={fi} className="ml-4 border-l border-gray-700 mt-2 mb-2">
+                    <div key={fi} className="ml-4 border-l border-(--border) mt-2 mb-2">
                       <div className="flex items-center gap-2 px-4 py-2">
                         <span className="text-xs px-2 py-0.5 bg-blue-800/40 text-blue-300 rounded font-mono">FEATURE</span>
                         <span className="text-gray-200 text-sm">{feature.title}</span>
                       </div>
                       {feature.children?.map((story: any, si: number) => (
-                        <div key={si} className="ml-4 border-l border-gray-700/50 px-4 py-2">
+                        <div key={si} className="ml-4 border-l border-(--border)/50 px-4 py-2">
                           <div className="flex items-center gap-2">
                             <span className="text-xs px-2 py-0.5 bg-green-800/40 text-green-300 rounded font-mono">STORY</span>
                             <span className="text-gray-300 text-sm">{story.title}</span>
@@ -174,8 +174,8 @@ export default function ImportAiPage() {
           </div>
 
           {preview.meetings?.length > 0 && (
-            <div className="bg-[#1a1a2e] rounded-xl border border-gray-800 p-4">
-              <h3 className="text-white text-sm font-semibold mb-3">
+            <div className="bg-(--background) rounded-xl border border-(--border) p-4">
+              <h3 className="text-app text-sm font-semibold mb-3">
                 📅 Reuniões sugeridas · {preview.meetings.length}
               </h3>
               <div className="grid grid-cols-2 gap-2">

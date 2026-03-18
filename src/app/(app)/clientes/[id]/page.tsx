@@ -9,16 +9,19 @@ import { cn } from '@/lib/utils';
 
 const healthColor: Record<ProjectHealth, string> = {
   [ProjectHealth.ON_TRACK]: 'text-green-400',
-  [ProjectHealth.AT_RISK]: 'text-amber-400',
-  [ProjectHealth.CRITICAL]: 'text-red-400',
+  [ProjectHealth.ATTENTION]: 'text-amber-400',
+  [ProjectHealth.AT_RISK]:  'text-red-400',
 };
 
 const statusColor: Record<ProjectStatus, string> = {
-  [ProjectStatus.PLANNING]: 'bg-blue-900/30 text-blue-300',
-  [ProjectStatus.ACTIVE]: 'bg-green-900/30 text-green-300',
-  [ProjectStatus.PAUSED]: 'bg-amber-900/30 text-amber-300',
-  [ProjectStatus.COMPLETED]: 'bg-gray-800 text-gray-300',
-  [ProjectStatus.CANCELLED]: 'bg-red-900/30 text-red-400',
+  [ProjectStatus.PRE_PROJECT]:  'bg-gray-800/40 text-gray-400',
+  [ProjectStatus.KICKOFF]:      'bg-violet-900/30 text-violet-300',
+  [ProjectStatus.DISCOVERY]:    'bg-purple-900/30 text-purple-300',
+  [ProjectStatus.DEVELOPMENT]:  'bg-blue-900/30 text-blue-300',
+  [ProjectStatus.QA]:           'bg-amber-900/30 text-amber-300',
+  [ProjectStatus.PRODUCTION]:   'bg-green-900/30 text-green-300',
+  [ProjectStatus.MAINTENANCE]:  'bg-cyan-900/30 text-cyan-300',
+  [ProjectStatus.CANCELLED]:    'bg-red-900/30 text-red-400',
 };
 
 export default function ClienteDetalhePage() {
@@ -55,7 +58,7 @@ export default function ClienteDetalhePage() {
     return <p className="text-gray-400">Cliente não encontrado.</p>;
   }
 
-  const activeProjects = projects?.filter((p) => p.status === ProjectStatus.ACTIVE) ?? [];
+  const activeProjects = projects?.filter((p) => p.status === ProjectStatus.DEVELOPMENT) ?? [];
 
   return (
     <div className="space-y-6">
@@ -67,12 +70,17 @@ export default function ClienteDetalhePage() {
       </div>
 
       {/* Client header card */}
-      <div className="bg-[#1a1a2e] rounded-xl border border-gray-800 p-6">
+      <div className="bg-(--background) rounded-xl border border-(--border) p-6">
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-white">{client.companyName}</h1>
+            <h1 className="text-2xl font-bold text-app">
+              {client.company.includes(' ')
+                ? <>{client.company.slice(0, client.company.lastIndexOf(' '))} <em className="italic text-[#8B0000]">{client.company.slice(client.company.lastIndexOf(' ') + 1)}</em></>
+                : <>{client.company.slice(0, Math.ceil(client.company.length / 2))}<em className="italic text-[#8B0000]">{client.company.slice(Math.ceil(client.company.length / 2))}</em></>
+              }
+            </h1>
             <p className="text-gray-400 text-sm mt-1">
-              {client.contactName} · {client.contactEmail}
+              {client.name} · {client.email}
             </p>
           </div>
           <div className="flex gap-2">
@@ -82,29 +90,30 @@ export default function ClienteDetalhePage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-5 border-t border-gray-800">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-5 border-t border-(--border)">
           <div>
             <p className="text-gray-500 text-xs mb-1">Status</p>
             <span className={cn(
               'text-xs px-2 py-0.5 rounded-full',
-              client.status === 'ACTIVE' ? 'bg-green-900/30 text-green-300' :
-              client.status === 'PROSPECT' ? 'bg-blue-900/30 text-blue-300' :
-              'bg-gray-800 text-gray-400',
+              client.status === 'ACTIVE'   ? 'bg-green-500/20 text-green-600' :
+              client.status === 'PROPOSAL' ? 'bg-blue-500/20 text-blue-600' :
+              client.status === 'PAUSED'   ? 'bg-yellow-500/20 text-yellow-600' :
+              'bg-gray-500/20 text-gray-500',
             )}>
-              {client.status}
+              {{ ACTIVE: 'Ativo', PROPOSAL: 'Proposta', PAUSED: 'Pausado', INACTIVE: 'Inativo' }[client.status] ?? client.status}
             </span>
           </div>
           <div>
             <p className="text-gray-500 text-xs mb-1">Projetos Ativos</p>
-            <p className="text-white font-bold">{activeProjects.length}</p>
+            <p className="text-app font-bold">{activeProjects.length}</p>
           </div>
           <div>
             <p className="text-gray-500 text-xs mb-1">Total de Projetos</p>
-            <p className="text-white font-bold">{projects?.length ?? 0}</p>
+            <p className="text-app font-bold">{projects?.length ?? 0}</p>
           </div>
           <div>
             <p className="text-gray-500 text-xs mb-1">Cliente desde</p>
-            <p className="text-white">
+            <p className="text-app">
               {new Date(client.createdAt).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}
             </p>
           </div>
@@ -113,9 +122,9 @@ export default function ClienteDetalhePage() {
 
       {/* Projects */}
       <div>
-        <h2 className="text-white font-semibold mb-3">Projetos</h2>
+        <h2 className="text-app font-semibold mb-3">Projetos</h2>
         {!projects?.length ? (
-          <div className="bg-[#1a1a2e] rounded-xl border border-gray-800 p-8 text-center">
+          <div className="bg-(--background) rounded-xl border border-(--border) p-8 text-center">
             <p className="text-gray-400 text-sm">Nenhum projeto para este cliente</p>
           </div>
         ) : (
@@ -124,11 +133,11 @@ export default function ClienteDetalhePage() {
               <Link
                 key={project.id}
                 href={`/projetos/${project.id}`}
-                className="bg-[#1a1a2e] rounded-xl border border-gray-800 hover:border-gray-600 p-5 transition-colors"
+                className="bg-(--background) rounded-xl border border-(--border) hover:border-(--border) p-5 transition-colors"
               >
                 <div className="flex items-start justify-between">
                   <div>
-                    <h3 className="text-white font-medium">{project.name}</h3>
+                    <h3 className="text-app font-medium">{project.name}</h3>
                     <p className="text-gray-400 text-xs mt-1">
                       PO: {project.po?.name ?? '—'}
                     </p>

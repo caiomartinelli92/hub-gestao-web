@@ -123,7 +123,7 @@ export default function AdministrativoPage() {
     <div className="space-y-5">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-white">🏛️ Administrativo</h1>
+        <h1 className="text-2xl font-bold text-app">Adminis<em className="italic text-[#8B0000]">trativo</em></h1>
         <button
           onClick={() => setShowRequestModal(true)}
           className="px-4 py-2 bg-[#8B0000] hover:bg-[#a50000] text-white rounded-lg text-sm transition-colors"
@@ -133,12 +133,12 @@ export default function AdministrativoPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex rounded-lg overflow-hidden border border-gray-700 w-fit">
+      <div className="flex rounded-lg overflow-hidden border border-(--border) w-fit">
         <button
           onClick={() => setTab('requests')}
           className={cn(
             'px-5 py-2 text-sm transition-colors',
-            tab === 'requests' ? 'bg-[#8B0000] text-white' : 'bg-[#16213e] text-gray-400 hover:text-white',
+            tab === 'requests' ? 'bg-[#8B0000] text-white' : 'bg-(--card-deep) text-muted hover:text-app',
           )}
         >
           Solicitações
@@ -147,7 +147,7 @@ export default function AdministrativoPage() {
           onClick={() => setTab('rooms')}
           className={cn(
             'px-5 py-2 text-sm transition-colors',
-            tab === 'rooms' ? 'bg-[#8B0000] text-white' : 'bg-[#16213e] text-gray-400 hover:text-white',
+            tab === 'rooms' ? 'bg-[#8B0000] text-white' : 'bg-(--card-deep) text-muted hover:text-app',
           )}
         >
           Salas de Reunião
@@ -160,9 +160,9 @@ export default function AdministrativoPage() {
           {reqLoading ? (
             [...Array(4)].map((_, i) => <div key={i} className="h-16 bg-gray-800/50 rounded-xl animate-pulse" />)
           ) : requests.length === 0 ? (
-            <div className="bg-[#1a1a2e] rounded-xl border border-gray-800 p-12 text-center">
+            <div className="bg-(--background) rounded-xl border border-(--border) p-12 text-center">
               <p className="text-3xl mb-3">📋</p>
-              <p className="text-white font-medium">Nenhuma solicitação</p>
+              <p className="text-app font-medium">Nenhuma solicitação</p>
               <p className="text-gray-400 text-sm mt-1">Crie uma solicitação administrativa</p>
             </div>
           ) : (
@@ -173,31 +173,31 @@ export default function AdministrativoPage() {
               const nextStatuses = ALLOWED_TRANSITIONS[req.status] ?? [];
 
               return (
-                <div key={req.id} className="bg-[#1a1a2e] rounded-xl border border-gray-800">
+                <div key={req.id} className="bg-(--background) rounded-xl border border-(--border)">
                   <div
                     className="flex items-center gap-3 px-4 py-3 cursor-pointer"
                     onClick={() => setExpandedId(isExpanded ? null : req.id)}
                   >
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className={cn('text-xs font-medium flex-shrink-0', pri.color)}>
+                        <span className={cn('text-xs font-medium shrink-0', pri.color)}>
                           [{pri.label}]
                         </span>
-                        <p className="text-white text-sm truncate">{req.title}</p>
+                        <p className="text-app text-sm truncate">{req.title}</p>
                       </div>
                       <p className="text-gray-400 text-xs">
                         {req.type} · {req.requester?.name ?? '—'} ·{' '}
                         {new Date(req.createdAt).toLocaleDateString('pt-BR')}
                       </p>
                     </div>
-                    <span className={cn('text-xs px-2 py-0.5 rounded-full flex-shrink-0', sts.color)}>
+                    <span className={cn('text-xs px-2 py-0.5 rounded-full shrink-0', sts.color)}>
                       {sts.label}
                     </span>
                     <span className="text-gray-600 text-xs">{isExpanded ? '▲' : '▼'}</span>
                   </div>
 
                   {isExpanded && (
-                    <div className="border-t border-gray-800 px-4 py-3 space-y-3">
+                    <div className="border-t border-(--border) px-4 py-3 space-y-3">
                       <p className="text-gray-200 text-sm">{req.description}</p>
                       {nextStatuses.length > 0 && (
                         <div className="flex items-center gap-2 flex-wrap">
@@ -232,7 +232,7 @@ export default function AdministrativoPage() {
             {roomsLoading ? (
               [...Array(3)].map((_, i) => <div key={i} className="h-16 bg-gray-800/50 rounded-xl animate-pulse" />)
             ) : !rooms?.length ? (
-              <div className="bg-[#1a1a2e] rounded-xl border border-gray-800 p-6 text-center">
+              <div className="bg-(--background) rounded-xl border border-(--border) p-6 text-center">
                 <p className="text-gray-400 text-sm">Nenhuma sala cadastrada</p>
               </div>
             ) : (
@@ -241,16 +241,16 @@ export default function AdministrativoPage() {
                   key={room.id}
                   onClick={() => setSelectedRoomId(room.id)}
                   className={cn(
-                    'w-full text-left bg-[#1a1a2e] rounded-xl border p-4 transition-colors',
-                    selectedRoomId === room.id ? 'border-[#8B0000]' : 'border-gray-800 hover:border-gray-600',
+                    'w-full text-left bg-(--background) rounded-xl border p-4 transition-colors',
+                    selectedRoomId === room.id ? 'border-[#8B0000]' : 'border-(--border) hover:border-(--border)',
                   )}
                 >
-                  <p className="text-white font-medium">{room.name}</p>
+                  <p className="text-app font-medium">{room.name}</p>
                   <p className="text-gray-400 text-xs mt-0.5">Capacidade: {room.capacity} pessoas</p>
                 </button>
               ))
             )}
-            <button className="w-full px-3 py-2 border border-dashed border-gray-700 hover:border-gray-500 text-gray-500 hover:text-gray-300 text-xs rounded-lg transition-colors">
+            <button className="w-full px-3 py-2 border border-dashed border-(--border) hover:border-gray-500 text-gray-500 hover:text-gray-300 text-xs rounded-lg transition-colors">
               + Adicionar Sala
             </button>
           </div>
@@ -265,20 +265,20 @@ export default function AdministrativoPage() {
                     type="date"
                     value={bookingDate}
                     onChange={(e) => setBookingDate(e.target.value)}
-                    className="bg-[#1a1a2e] border border-gray-700 rounded px-3 py-1 text-white text-xs focus:outline-none focus:border-[#8B0000]"
+                    className="bg-(--background) border border-(--border) rounded px-3 py-1 text-app text-xs focus:outline-none focus:border-[#8B0000]"
                   />
                 </div>
 
                 {bookings.length === 0 ? (
-                  <div className="bg-[#1a1a2e] rounded-xl border border-gray-800 p-8 text-center">
+                  <div className="bg-(--background) rounded-xl border border-(--border) p-8 text-center">
                     <p className="text-gray-400 text-sm">Nenhuma reserva para esta data</p>
                   </div>
                 ) : (
                   <div className="space-y-2">
                     {bookings.map((booking) => (
-                      <div key={booking.id} className="bg-[#1a1a2e] rounded-xl border border-gray-800 px-4 py-3 flex items-center justify-between">
+                      <div key={booking.id} className="bg-(--background) rounded-xl border border-(--border) px-4 py-3 flex items-center justify-between">
                         <div>
-                          <p className="text-white text-sm font-medium">{booking.title}</p>
+                          <p className="text-app text-sm font-medium">{booking.title}</p>
                           <p className="text-gray-400 text-xs">
                             {booking.startTime} – {booking.endTime} ·{' '}
                             {booking.requester?.name ?? '—'}
@@ -316,7 +316,7 @@ export default function AdministrativoPage() {
                 </button>
               </>
             ) : (
-              <div className="bg-[#1a1a2e] rounded-xl border border-gray-800 p-12 text-center h-full flex items-center justify-center">
+              <div className="bg-(--background) rounded-xl border border-(--border) p-12 text-center h-full flex items-center justify-center">
                 <div>
                   <p className="text-3xl mb-3">🏛️</p>
                   <p className="text-gray-400 text-sm">Selecione uma sala para ver as reservas</p>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { useTheme } from '@/lib/theme';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuthStore } from '@/stores/auth.store';
 import api from '@/lib/api';
@@ -64,7 +65,10 @@ export function Header() {
   const items = unread?.items ?? [];
 
   return (
-    <header className="h-16 bg-[#16213e] border-b border-gray-800 flex items-center justify-between px-6">
+    <header
+      className="h-16 border-b flex items-center justify-between px-6"
+      style={{ background: 'var(--header-bg)', borderColor: 'var(--border)' }}
+    >
       <div />
       <div className="flex items-center gap-4">
         {/* Notification bell */}
@@ -86,10 +90,10 @@ export function Header() {
 
           {/* Dropdown */}
           {open && (
-            <div className="absolute right-0 top-8 w-80 bg-[#1a1a2e] border border-gray-700 rounded-xl shadow-2xl z-50 overflow-hidden">
+            <div className="absolute right-0 top-8 w-80 bg-(--background) border border-(--border) rounded-xl shadow-2xl z-50 overflow-hidden">
               {/* Header */}
-              <div className="flex items-center justify-between px-4 py-3 border-b border-gray-800">
-                <h3 className="text-white text-sm font-semibold">
+              <div className="flex items-center justify-between px-4 py-3 border-b border-(--border)">
+                <h3 className="text-app text-sm font-semibold">
                   Notificações {count > 0 && <span className="text-[#8B0000]">({count})</span>}
                 </h3>
                 {count > 0 && (
@@ -115,9 +119,9 @@ export function Header() {
                     <div
                       key={notif.id}
                       className={cn(
-                        'px-4 py-3 border-b border-gray-800/60 cursor-pointer transition-colors',
+                        'px-4 py-3 border-b border-(--border)/60 cursor-pointer transition-colors',
                         notif.isRead
-                          ? 'hover:bg-gray-800/20'
+                          ? 'hover:bg-(--stripe)'
                           : 'bg-[#8B0000]/10 hover:bg-[#8B0000]/20',
                       )}
                       onClick={() => {
@@ -128,10 +132,10 @@ export function Header() {
                     >
                       <div className="flex items-start gap-2">
                         {!notif.isRead && (
-                          <div className="w-1.5 h-1.5 rounded-full bg-[#8B0000] mt-1.5 flex-shrink-0" />
+                          <div className="w-1.5 h-1.5 rounded-full bg-[#8B0000] mt-1.5 shrink-0" />
                         )}
                         <div className={cn(!notif.isRead && 'ml-0', 'flex-1 min-w-0')}>
-                          <p className="text-white text-xs font-medium truncate">{notif.title}</p>
+                          <p className="text-app text-xs font-medium truncate">{notif.title}</p>
                           <p className="text-gray-400 text-xs mt-0.5 line-clamp-2">{notif.body}</p>
                           <p className="text-gray-600 text-[10px] mt-1">
                             {new Date(notif.createdAt).toLocaleDateString('pt-BR', {
@@ -151,6 +155,9 @@ export function Header() {
           )}
         </div>
 
+        {/* Theme toggle */}
+        <ThemeToggle />
+
         {/* User name */}
         {user && (
           <div className="flex items-center gap-2">
@@ -163,4 +170,21 @@ export function Header() {
       </div>
     </header>
   );
+}
+
+function ThemeToggle() {
+  try {
+    const { theme, toggle } = useTheme();
+    return (
+      <button
+        onClick={toggle}
+        title={`Mudar tema (atual: ${theme})`}
+        className="text-gray-400 hover:text-white transition-colors"
+      >
+        {theme === 'dark' ? '🌙' : '☀️'}
+      </button>
+    );
+  } catch (e) {
+    return null;
+  }
 }

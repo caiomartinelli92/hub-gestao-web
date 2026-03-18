@@ -122,13 +122,13 @@ export function CreateCRModal({ open, onClose, projectId }: CreateCRModalProps) 
           </Field>
         </div>
 
-        <div className="bg-gray-800/30 rounded-lg p-3 border border-gray-700/50">
+        <div className="bg-gray-800/30 rounded-lg p-3 border border-(--border)/50">
           <p className="text-xs text-gray-400">
-            💡 A CR será criada como <span className="text-white">Rascunho</span>. Você poderá adicionar estimativa técnica e enviar ao cliente posteriormente.
+            💡 A CR será criada como <span className="text-app">Rascunho</span>. Você poderá adicionar estimativa técnica e enviar ao cliente posteriormente.
           </p>
         </div>
 
-        <div className="flex justify-end gap-3 pt-2 border-t border-gray-800">
+        <div className="flex justify-end gap-3 pt-2 border-t border-(--border)">
           <button
             onClick={onClose}
             className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg text-sm transition-colors"

@@ -17,8 +17,10 @@ const navItems: NavItem[] = [
   { label: 'Dashboard', href: '/dashboard', roles: [Role.CEO, Role.PO, Role.DEV, Role.QA, Role.ADM], icon: '📊' },
   { label: 'Projetos', href: '/projetos', roles: [Role.CEO, Role.PO, Role.DEV, Role.QA], icon: '📁' },
   { label: 'Clientes', href: '/clientes', roles: [Role.CEO, Role.PO], icon: '🏢' },
-  { label: 'Calendário', href: '/calendario', roles: [Role.CEO, Role.PO, Role.DEV, Role.QA, Role.ADM], icon: '📅' },
+  { label: 'Reuniões',   href: '/reunioes',   roles: [Role.CEO, Role.PO, Role.DEV, Role.QA, Role.ADM], icon: '📅' },
+  { label: 'Calendário', href: '/calendario', roles: [Role.CEO, Role.PO, Role.DEV, Role.QA, Role.ADM], icon: '🗓️' },
   { label: 'Administrativo', href: '/administrativo', roles: [Role.CEO, Role.ADM], icon: '🏛️' },
+  { label: 'Configurações',  href: '/configuracoes',  roles: [Role.CEO],          icon: '⚙️' },
 ];
 
 export function Sidebar() {
@@ -30,7 +32,7 @@ export function Sidebar() {
   );
 
   return (
-    <aside className="w-60 bg-[#1a1a2e] min-h-screen flex flex-col border-r border-gray-800">
+    <aside data-sidebar className="w-60 bg-[#1a1a2e] min-h-screen flex flex-col border-r border-gray-800">
       {/* Logo */}
       <div className="p-5 border-b border-gray-800">
         <div className="flex items-center gap-2">
@@ -72,7 +74,7 @@ export function Sidebar() {
       <div className="p-3 border-t border-gray-800">
         {user && (
           <div className="flex items-center gap-3 px-2 py-2">
-            <div className="w-8 h-8 rounded-full bg-[#8B0000] flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+            <div className="w-8 h-8 rounded-full bg-[#8B0000] flex items-center justify-center text-white text-sm font-bold shrink-0">
               {user.name.charAt(0).toUpperCase()}
             </div>
             <div className="flex-1 min-w-0">

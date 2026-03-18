@@ -69,7 +69,7 @@ export default function ReunioesPage() {
               ← Projeto
             </Link>
           </div>
-          <h1 className="text-2xl font-bold text-white">📅 Reuniões</h1>
+          <h1 className="text-2xl font-bold text-app">Reu<em className="italic text-[#8B0000]">niões</em></h1>
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
@@ -80,7 +80,7 @@ export default function ReunioesPage() {
       </div>
 
       {/* Status filter */}
-      <div className="flex rounded-lg overflow-hidden border border-gray-700 w-fit">
+      <div className="flex rounded-lg overflow-hidden border border-(--border) w-fit">
         {(['ALL', ...Object.values(MeetingStatus)] as (MeetingStatus | 'ALL')[]).map((s) => (
           <button
             key={s}
@@ -89,7 +89,7 @@ export default function ReunioesPage() {
               'px-4 py-1.5 text-xs transition-colors',
               statusFilter === s
                 ? 'bg-[#8B0000] text-white'
-                : 'bg-[#16213e] text-gray-400 hover:text-white',
+                : 'bg-(--card-deep) text-muted hover:text-app',
             )}
           >
             {s === 'ALL' ? 'Todas' : statusConfig[s].label}
@@ -104,9 +104,9 @@ export default function ReunioesPage() {
           ))}
         </div>
       ) : meetings.length === 0 ? (
-        <div className="bg-[#1a1a2e] rounded-xl border border-gray-800 p-12 text-center">
+        <div className="card rounded-xl p-12 text-center">
           <p className="text-3xl mb-3">📅</p>
-          <p className="text-white font-medium">Nenhuma reunião</p>
+          <p className="text-app font-medium">Nenhuma reunião</p>
           <p className="text-gray-400 text-sm mt-1">Agende a primeira reunião do projeto</p>
         </div>
       ) : (
@@ -182,17 +182,17 @@ function MeetingCard({
   return (
     <div
       className={cn(
-        'bg-[#1a1a2e] rounded-xl border transition-colors',
-        meeting.status === MeetingStatus.SCHEDULED ? 'border-blue-800/40' : 'border-gray-800',
+        'card rounded-xl border transition-colors',
+        meeting.status === MeetingStatus.SCHEDULED ? 'border-blue-800/40' : 'border-(--border)',
       )}
     >
       <div className="flex items-center gap-3 px-5 py-4 cursor-pointer" onClick={onToggle}>
-        <span className="text-xl flex-shrink-0">{sts.icon}</span>
+        <span className="text-xl shrink-0">{sts.icon}</span>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <span className="text-white font-medium text-sm truncate">{meeting.title}</span>
-            <span className="text-xs text-gray-500 bg-gray-800 px-2 py-0.5 rounded-full flex-shrink-0">
+            <span className="text-app font-medium text-sm truncate">{meeting.title}</span>
+            <span className="text-xs text-gray-500 bg-gray-800 px-2 py-0.5 rounded-full shrink-0">
               {meetingTypeLabel[meeting.type] ?? meeting.type}
             </span>
           </div>
@@ -208,7 +208,7 @@ function MeetingCard({
           </p>
         </div>
 
-        <div className="flex items-center gap-2 flex-shrink-0">
+        <div className="flex items-center gap-2 shrink-0">
           {meeting.minutes && (
             <span className="text-xs text-gray-500">📝 Ata</span>
           )}
@@ -220,7 +220,7 @@ function MeetingCard({
       </div>
 
       {expanded && (
-        <div className="border-t border-gray-800 px-5 py-4 space-y-4">
+        <div className="border-t border-(--border) px-5 py-4 space-y-4">
           {/* Agenda */}
           {meeting.agenda && (
             <div>
@@ -249,7 +249,7 @@ function MeetingCard({
           {/* Minutes */}
           {meeting.minutes && (
             <div className="bg-gray-800/30 rounded-lg p-4 space-y-3">
-              <p className="text-white text-xs font-semibold uppercase tracking-wide">📝 Ata</p>
+              <p className="text-app text-xs font-semibold uppercase tracking-wide">📝 Ata</p>
               <div>
                 <p className="text-gray-500 text-xs mb-1">Decisões</p>
                 <p className="text-gray-200 text-sm whitespace-pre-line">{meeting.minutes.decisions}</p>
@@ -266,13 +266,13 @@ function MeetingCard({
                         <button
                           onClick={() => onTogglePendency(p.id)}
                           className={cn(
-                            'w-4 h-4 mt-0.5 rounded border flex-shrink-0 transition-colors',
+                            'w-4 h-4 mt-0.5 rounded border shrink-0 transition-colors',
                             p.done
                               ? 'bg-green-600 border-green-600'
-                              : 'border-gray-600 hover:border-green-500',
+                              : 'border-(--border) hover:border-green-500',
                           )}
                         >
-                          {p.done && <span className="text-white text-[10px] flex items-center justify-center">✓</span>}
+                          {p.done && <span className="text-app text-[10px] flex items-center justify-center">✓</span>}
                         </button>
                         <div>
                           <p className={cn('text-sm', p.done ? 'text-gray-500 line-through' : 'text-gray-200')}>

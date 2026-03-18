@@ -58,13 +58,13 @@ export default function AtaAiPage() {
       <div className="flex items-center gap-3 mb-6">
         <span className="text-2xl">📝</span>
         <div>
-          <h1 className="text-2xl font-bold text-white">Estruturação Automática de Ata</h1>
+          <h1 className="text-2xl font-bold text-app">Estruturação Automática de <em className="italic text-[#8B0000]">Ata</em></h1>
           <p className="text-gray-400 text-sm">IA-02 · Powered by Claude claude-sonnet-4-6</p>
         </div>
       </div>
 
       {!preview ? (
-        <div className="bg-[#1a1a2e] rounded-xl p-6 border border-gray-800">
+        <div className="bg-(--background) rounded-xl p-6 border border-(--border)">
           <p className="text-gray-300 text-sm mb-4">
             Cole a transcrição, resumo de voz ou notas da reunião. A IA identificará
             decisões, observações e pendências com responsáveis.
@@ -74,7 +74,7 @@ export default function AtaAiPage() {
             onChange={(e) => setTranscript(e.target.value)}
             rows={14}
             placeholder="Cole a transcrição ou notas da reunião aqui..."
-            className="w-full rounded-lg bg-[#16213e] border border-gray-700 text-white p-4 text-sm resize-none focus:outline-none focus:border-[#8B0000] transition-colors"
+            className="w-full rounded-lg bg-(--card-deep) border border-(--border) text-app p-4 text-sm resize-none focus:outline-none focus:border-[#8B0000] transition-colors"
           />
           <div className="flex justify-end mt-4">
             <button
@@ -90,20 +90,20 @@ export default function AtaAiPage() {
         <div className="space-y-4">
           <AiReviewBanner message="Revise decisões e pendências. Ajuste assignees sem correspondência (destacados em laranja)." />
 
-          <div className="bg-[#1a1a2e] rounded-xl border border-gray-800 p-6">
-            <h2 className="text-white font-semibold mb-4">Decisões tomadas</h2>
+          <div className="bg-(--background) rounded-xl border border-(--border) p-6">
+            <h2 className="text-app font-semibold mb-4">Decisões tomadas</h2>
             <textarea
               value={editedPreview?.decisions || ''}
               onChange={(e) =>
                 setEditedPreview((p: any) => ({ ...p, decisions: e.target.value }))
               }
               rows={5}
-              className="w-full rounded-lg bg-[#16213e] border border-gray-700 text-white p-3 text-sm resize-none focus:outline-none focus:border-[#8B0000]"
+              className="w-full rounded-lg bg-(--card-deep) border border-(--border) text-app p-3 text-sm resize-none focus:outline-none focus:border-[#8B0000]"
             />
           </div>
 
-          <div className="bg-[#1a1a2e] rounded-xl border border-gray-800 p-6">
-            <h2 className="text-white font-semibold mb-4">
+          <div className="bg-(--background) rounded-xl border border-(--border) p-6">
+            <h2 className="text-app font-semibold mb-4">
               Pendências · {editedPreview?.pendencies?.length || 0}
             </h2>
             <div className="space-y-3">
@@ -113,7 +113,7 @@ export default function AtaAiPage() {
                   className={`rounded-lg border p-3 ${
                     !p.assigneeName
                       ? 'border-orange-700/40 bg-orange-950/20'
-                      : 'border-gray-700 bg-gray-800/30'
+                      : 'border-(--border) bg-gray-800/30'
                   }`}
                 >
                   <div className="flex gap-3">
@@ -125,7 +125,7 @@ export default function AtaAiPage() {
                           updated[i] = { ...updated[i], description: e.target.value };
                           setEditedPreview((prev: any) => ({ ...prev, pendencies: updated }));
                         }}
-                        className="w-full bg-transparent text-white text-sm focus:outline-none border-b border-gray-600 pb-1"
+                        className="w-full bg-transparent text-app text-sm focus:outline-none border-b border-(--border) pb-1"
                       />
                     </div>
                     <div className="flex gap-2 items-start">
@@ -140,7 +140,7 @@ export default function AtaAiPage() {
                         className={`bg-transparent text-sm focus:outline-none border-b pb-1 ${
                           !p.assigneeName
                             ? 'text-orange-400 border-orange-600 placeholder-orange-500'
-                            : 'text-gray-300 border-gray-600'
+                            : 'text-gray-300 border-(--border)'
                         }`}
                       />
                       <input

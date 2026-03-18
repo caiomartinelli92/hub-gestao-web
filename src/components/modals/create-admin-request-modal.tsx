@@ -137,7 +137,7 @@ export function CreateAdminRequestModal({ open, onClose }: CreateAdminRequestMod
           </p>
         </div>
 
-        <div className="flex justify-end gap-3 pt-2 border-t border-gray-800">
+        <div className="flex justify-end gap-3 pt-2 border-t border-(--border)">
           <button
             onClick={onClose}
             className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg text-sm transition-colors"

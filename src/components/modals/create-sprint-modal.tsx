@@ -92,7 +92,7 @@ export function CreateSprintModal({ open, onClose, projectId }: CreateSprintModa
 
         {durationDays > 0 && (
           <p className="text-xs text-gray-400">
-            Duração: <span className="text-white font-medium">{durationDays} dias</span>
+            Duração: <span className="text-app font-medium">{durationDays} dias</span>
             {durationDays < 7 && <span className="text-amber-400 ml-2">⚠ Sprint muito curto</span>}
             {durationDays > 21 && <span className="text-amber-400 ml-2">⚠ Sprint muito longo</span>}
           </p>
@@ -112,10 +112,10 @@ export function CreateSprintModal({ open, onClose, projectId }: CreateSprintModa
           />
         </Field>
 
-        <div className="flex justify-end gap-3 pt-2 border-t border-gray-800">
+        <div className="flex justify-end gap-3 pt-2 border-t border-(--border)">
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg text-sm transition-colors"
+            className="px-4 py-2 border border-(--border) text-muted hover:text-app rounded-lg text-sm transition-colors"
           >
             Cancelar
           </button>

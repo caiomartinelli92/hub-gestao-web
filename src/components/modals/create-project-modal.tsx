@@ -101,7 +101,7 @@ export function CreateProjectModal({ open, onClose }: CreateProjectModalProps) {
             >
               <option value="">Selecionar cliente...</option>
               {clients?.map((c) => (
-                <option key={c.id} value={c.id}>{c.companyName}</option>
+                <option key={c.id} value={c.id}>{c.company}</option>
               ))}
             </select>
           </Field>
@@ -175,17 +175,17 @@ export function CreateProjectModal({ open, onClose }: CreateProjectModalProps) {
           />
         </Field>
 
-        <div className="flex justify-end gap-3 pt-2 border-t border-gray-800">
+        <div className="flex justify-end gap-3 pt-2 border-t border-app">
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg text-sm transition-colors"
+            className="px-4 py-2 border border-app text-muted rounded-lg hover:text-app transition-colors"
           >
             Cancelar
           </button>
           <button
             onClick={() => createMutation.mutate()}
             disabled={!canSubmit || createMutation.isPending}
-            className="px-5 py-2 bg-[#8B0000] hover:bg-[#a50000] text-white rounded-lg text-sm transition-colors disabled:opacity-50"
+            className="px-5 py-2 bg-(--primary) hover:bg-(--primary)/90 text-white rounded-lg text-sm transition-colors disabled:opacity-50"
           >
             {createMutation.isPending ? 'Criando...' : 'Criar Projeto'}
           </button>

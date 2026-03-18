@@ -206,26 +206,26 @@ export default function CalendarioPage() {
     <div className="space-y-5">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-white">📅 Calendário</h1>
+        <h1 className="text-2xl font-bold text-app">Calen<em className="italic text-[#8B0000]">dário</em></h1>
         <div className="flex items-center gap-3">
           <button
             onClick={prevMonth}
-            className="p-2 rounded-lg bg-[#1a1a2e] border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
+            className="p-2 rounded-lg bg-(--background) border border-(--border) text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
           >
             ‹
           </button>
-          <span className="text-white font-semibold text-sm min-w-[140px] text-center">
+          <span className="text-app font-semibold text-sm min-w-35 text-center">
             {MONTHS[month]} {year}
           </span>
           <button
             onClick={nextMonth}
-            className="p-2 rounded-lg bg-[#1a1a2e] border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
+            className="p-2 rounded-lg bg-(--background) border border-(--border) text-gray-400 hover:text-white hover:border-gray-500 transition-colors"
           >
             ›
           </button>
           <button
             onClick={() => { setYear(today.getFullYear()); setMonth(today.getMonth()); setSelectedDay(today.toISOString().slice(0, 10)); }}
-            className="px-3 py-1.5 text-xs bg-[#1a1a2e] border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 rounded-lg transition-colors"
+            className="px-3 py-1.5 text-xs bg-(--background) border border-(--border) text-gray-400 hover:text-white hover:border-gray-500 rounded-lg transition-colors"
           >
             Hoje
           </button>
@@ -234,9 +234,9 @@ export default function CalendarioPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
         {/* Calendar grid */}
-        <div className="lg:col-span-3 bg-[#1a1a2e] rounded-xl border border-gray-800 overflow-hidden">
+        <div className="lg:col-span-3 bg-(--background) rounded-xl border border-(--border) overflow-hidden">
           {/* Weekday headers */}
-          <div className="grid grid-cols-7 border-b border-gray-800">
+          <div className="grid grid-cols-7 border-b border-(--border)">
             {WEEKDAYS.map((wd) => (
               <div
                 key={wd}
@@ -258,7 +258,7 @@ export default function CalendarioPage() {
                   key={cell.dateStr}
                   onClick={() => setSelectedDay(cell.dateStr)}
                   className={cn(
-                    'min-h-[80px] p-1.5 border-b border-r border-gray-800/60 cursor-pointer transition-colors',
+                    'min-h-20 p-1.5 border-b border-r border-(--border)/60 cursor-pointer transition-colors',
                     !cell.isCurrentMonth && 'opacity-30',
                     isSelected && 'bg-[#8B0000]/10',
                     !isSelected && 'hover:bg-gray-800/30',
@@ -305,7 +305,7 @@ export default function CalendarioPage() {
         </div>
 
         {/* Day detail panel */}
-        <div className="bg-[#1a1a2e] rounded-xl border border-gray-800 p-4 space-y-3">
+        <div className="bg-(--background) rounded-xl border border-(--border) p-4 space-y-3">
           <div>
             <p className="text-xs text-gray-400 uppercase tracking-wide font-medium">
               {selectedDay
@@ -329,14 +329,14 @@ export default function CalendarioPage() {
             {selectedEvents.map((ev) => (
               <div
                 key={ev.id}
-                className="bg-gray-800/40 rounded-lg p-3 border border-gray-700/50"
+                className="bg-gray-800/40 rounded-lg p-3 border border-(--border)/50"
               >
                 <div className="flex items-start gap-2">
                   <span
-                    className={cn('w-2 h-2 rounded-full mt-1.5 flex-shrink-0', ev.color)}
+                    className={cn('w-2 h-2 rounded-full mt-1.5 shrink-0', ev.color)}
                   />
                   <div className="min-w-0 flex-1">
-                    <p className="text-white text-sm font-medium truncate">{ev.title}</p>
+                    <p className="text-app text-sm font-medium truncate">{ev.title}</p>
                     {ev.hour && (
                       <p className="text-gray-400 text-xs">{ev.hour}</p>
                     )}
@@ -362,7 +362,7 @@ export default function CalendarioPage() {
           </div>
 
           {/* Legend */}
-          <div className="pt-3 border-t border-gray-800 space-y-1">
+          <div className="pt-3 border-t border-(--border) space-y-1">
             <p className="text-xs text-gray-500 font-medium mb-2">Legenda</p>
             {[
               { color: 'bg-blue-600', label: 'Reunião' },
@@ -379,7 +379,7 @@ export default function CalendarioPage() {
       </div>
 
       {/* Upcoming events list */}
-      <div className="bg-[#1a1a2e] rounded-xl border border-gray-800 p-4">
+      <div className="bg-(--background) rounded-xl border border-(--border) p-4">
         <h3 className="text-gray-400 text-xs font-medium uppercase tracking-wide mb-3">
           Próximos eventos — {MONTHS[month]} {year}
         </h3>
@@ -396,19 +396,19 @@ export default function CalendarioPage() {
               .map((ev) => (
                 <div
                   key={ev.id}
-                  className="flex items-center gap-3 py-2 border-b border-gray-800/50 last:border-0"
+                  className="flex items-center gap-3 py-2 border-b border-(--border)/50 last:border-0"
                 >
-                  <div className="text-center min-w-[40px]">
-                    <p className="text-white font-bold text-sm">
+                  <div className="text-center min-w-10">
+                    <p className="text-app font-bold text-sm">
                       {new Date(ev.date + 'T12:00:00').getDate()}
                     </p>
                     <p className="text-gray-500 text-[10px] uppercase">
                       {MONTHS[new Date(ev.date + 'T12:00:00').getMonth()].slice(0, 3)}
                     </p>
                   </div>
-                  <span className={cn('w-1 h-10 rounded-full flex-shrink-0', ev.color)} />
+                  <span className={cn('w-1 h-10 rounded-full shrink-0', ev.color)} />
                   <div className="flex-1 min-w-0">
-                    <p className="text-white text-sm truncate">{ev.title}</p>
+                    <p className="text-app text-sm truncate">{ev.title}</p>
                     <p className="text-gray-500 text-xs">
                       {ev.hour ?? 'Dia inteiro'}
                       {ev.projectName && ` · ${ev.projectName}`}
@@ -416,7 +416,7 @@ export default function CalendarioPage() {
                   </div>
                   <span
                     className={cn(
-                      'text-xs px-2 py-0.5 rounded-full flex-shrink-0',
+                      'text-xs px-2 py-0.5 rounded-full shrink-0',
                       ev.type === 'meeting'
                         ? 'bg-blue-900/30 text-blue-300'
                         : 'bg-purple-900/30 text-purple-300',

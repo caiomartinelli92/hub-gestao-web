@@ -23,16 +23,16 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0f0f23] flex items-center justify-center">
+    <div className="min-h-screen bg-(--background) flex items-center justify-center">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white">Hub de Gestao</h1>
+          <h1 className="text-3xl font-bold text-app">Hub de Gestao</h1>
           <p className="text-gray-400 mt-2">Acesse sua conta</p>
         </div>
 
         <form
           onSubmit={handleSubmit}
-          className="bg-[#1a1a2e] rounded-xl p-8 shadow-2xl border border-gray-800"
+          className="bg-(--card) rounded-xl p-8 shadow-2xl border border-(--border)"
         >
           {error && (
             <div className="mb-4 p-3 rounded-lg bg-red-900/30 border border-red-800 text-red-300 text-sm">
@@ -47,7 +47,7 @@ export default function LoginPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-lg bg-[#16213e] border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-[#8B0000] transition-colors"
+                className="w-full px-4 py-2.5 rounded-lg bg-(--card-deep) border border-(--border) text-app placeholder-gray-500 focus:outline-none focus:border-[#8B0000] transition-colors"
                 placeholder="seu@email.com"
                 required
               />
@@ -59,7 +59,7 @@ export default function LoginPage() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-lg bg-[#16213e] border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-[#8B0000] transition-colors"
+                className="w-full px-4 py-2.5 rounded-lg bg-(--card-deep) border border-(--border) text-app placeholder-gray-500 focus:outline-none focus:border-[#8B0000] transition-colors"
                 placeholder="Sua senha"
                 required
               />

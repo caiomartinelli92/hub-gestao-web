@@ -94,7 +94,7 @@ export function CreateBugModal({ open, onClose, projectId }: CreateBugModalProps
   });
 
   function resetForm() {
-    setForm({ title: '', description: '', severity: 'MEDIUM', type: 'FUNCTIONAL',
+    setForm({ title: '', description: '', severity: 'MEDIUM' as BugSeverity, type: 'FUNCTIONAL',
       environment: 'staging', origin: 'SPRINT', evidenceUrl: '', stepsToReproduce: [] });
     setAiSuggestion(null);
     setTriageDismissed(false);
@@ -231,7 +231,7 @@ export function CreateBugModal({ open, onClose, projectId }: CreateBugModalProps
         </Field>
 
         {/* Footer */}
-        <div className="flex justify-end gap-3 pt-2 border-t border-gray-800">
+        <div className="flex justify-end gap-3 pt-2 border-t border-(--border)">
           <button
             onClick={() => { onClose(); resetForm(); }}
             className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg text-sm transition-colors"

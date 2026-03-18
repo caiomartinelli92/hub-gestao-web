@@ -16,13 +16,13 @@ export function CreateClientModal({ open, onClose }: CreateClientModalProps) {
   const toast = useToast();
 
   const [form, setForm] = useState({
-    companyName: '',
-    contactName: '',
-    contactEmail: '',
-    contactPhone: '',
-    status: 'PROSPECT',
-    cnpj: '',
-    website: '',
+    company: '',
+    name: '',
+    email: '',
+    phone: '',
+    status: 'PROPOSAL',
+    sector: '',
+    notes: '',
   });
 
   const set = (k: string, v: any) => setForm((p) => ({ ...p, [k]: v }));
@@ -30,28 +30,28 @@ export function CreateClientModal({ open, onClose }: CreateClientModalProps) {
   const createMutation = useMutation({
     mutationFn: async () => {
       await api.post('/clients', {
-        companyName: form.companyName,
-        contactName: form.contactName,
-        contactEmail: form.contactEmail,
-        contactPhone: form.contactPhone || undefined,
+        company: form.company,
+        name: form.name,
+        email: form.email,
+        phone: form.phone || undefined,
         status: form.status,
-        cnpj: form.cnpj || undefined,
-        website: form.website || undefined,
+        sector: form.sector || undefined,
+        notes: form.notes || undefined,
       });
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['clients'] });
       toast.success('Cliente cadastrado com sucesso!');
       onClose();
-      setForm({ companyName: '', contactName: '', contactEmail: '', contactPhone: '',
-        status: 'PROSPECT', cnpj: '', website: '' });
+      setForm({ company: '', name: '', email: '', phone: '',
+        status: 'PROPOSAL', sector: '', notes: '' });
     },
     onError: (err: any) => {
       toast.error('Erro ao cadastrar cliente', err.response?.data?.error?.message);
     },
   });
 
-  const canSubmit = form.companyName.trim() && form.contactName.trim() && form.contactEmail.trim();
+  const canSubmit = form.company.trim() && form.name.trim() && form.email.trim();
 
   return (
     <Modal
@@ -61,11 +61,11 @@ export function CreateClientModal({ open, onClose }: CreateClientModalProps) {
       size="md"
     >
       <div className="space-y-4">
-        <Field label="Nome da Empresa" required>
+        <Field label="Empresa" required>
           <input
             className={inputClass}
-            value={form.companyName}
-            onChange={(e) => set('companyName', e.target.value)}
+            value={form.company}
+            onChange={(e) => set('company', e.target.value)}
             placeholder="Ex: Acme Tecnologia Ltda"
           />
         </Field>
@@ -74,15 +74,16 @@ export function CreateClientModal({ open, onClose }: CreateClientModalProps) {
           <Field label="Nome do Contato" required>
             <input
               className={inputClass}
-              value={form.contactName}
-              onChange={(e) => set('contactName', e.target.value)}
+              value={form.name}
+              onChange={(e) => set('name', e.target.value)}
               placeholder="João Silva"
             />
           </Field>
           <Field label="Status">
             <select className={selectClass} value={form.status} onChange={(e) => set('status', e.target.value)}>
-              <option value="PROSPECT">Prospect</option>
+              <option value="PROPOSAL">Proposta</option>
               <option value="ACTIVE">Ativo</option>
+              <option value="PAUSED">Pausado</option>
               <option value="INACTIVE">Inativo</option>
             </select>
           </Field>
@@ -92,8 +93,8 @@ export function CreateClientModal({ open, onClose }: CreateClientModalProps) {
           <input
             type="email"
             className={inputClass}
-            value={form.contactEmail}
-            onChange={(e) => set('contactEmail', e.target.value)}
+            value={form.email}
+            onChange={(e) => set('email', e.target.value)}
             placeholder="joao@acme.com.br"
           />
         </Field>
@@ -102,31 +103,32 @@ export function CreateClientModal({ open, onClose }: CreateClientModalProps) {
           <Field label="Telefone">
             <input
               className={inputClass}
-              value={form.contactPhone}
-              onChange={(e) => set('contactPhone', e.target.value)}
+              value={form.phone}
+              onChange={(e) => set('phone', e.target.value)}
               placeholder="(11) 98765-4321"
             />
           </Field>
-          <Field label="CNPJ">
+          <Field label="Setor">
             <input
               className={inputClass}
-              value={form.cnpj}
-              onChange={(e) => set('cnpj', e.target.value)}
-              placeholder="00.000.000/0001-00"
+              value={form.sector}
+              onChange={(e) => set('sector', e.target.value)}
+              placeholder="Ex: Tecnologia"
             />
           </Field>
         </div>
 
-        <Field label="Website">
-          <input
+        <Field label="Observações">
+          <textarea
             className={inputClass}
-            value={form.website}
-            onChange={(e) => set('website', e.target.value)}
-            placeholder="https://acme.com.br"
+            value={form.notes}
+            onChange={(e) => set('notes', e.target.value)}
+            placeholder="Notas sobre o cliente..."
+            rows={2}
           />
         </Field>
 
-        <div className="flex justify-end gap-3 pt-2 border-t border-gray-800">
+        <div className="flex justify-end gap-3 pt-2 border-t border-(--border)">
           <button
             onClick={onClose}
             className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg text-sm transition-colors"

@@ -143,7 +143,7 @@ export function CreateMeetingModal({ open, onClose, projectId }: CreateMeetingMo
 
         {duration > 0 && (
           <p className="text-xs text-gray-400">
-            Duração: <span className="text-white font-medium">
+            Duração: <span className="text-app font-medium">
               {duration >= 60 ? `${Math.floor(duration / 60)}h${duration % 60 > 0 ? ` ${duration % 60}min` : ''}` : `${duration}min`}
             </span>
           </p>
@@ -199,7 +199,7 @@ export function CreateMeetingModal({ open, onClose, projectId }: CreateMeetingMo
           </Field>
         )}
 
-        <div className="flex justify-end gap-3 pt-2 border-t border-gray-800">
+        <div className="flex justify-end gap-3 pt-2 border-t border-(--border)">
           <button
             onClick={onClose}
             className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg text-sm transition-colors"

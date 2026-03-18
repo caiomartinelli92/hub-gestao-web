@@ -92,7 +92,7 @@ export default function BugsPage() {
               ← Projeto
             </Link>
           </div>
-          <h1 className="text-2xl font-bold text-white">🐛 Bugs</h1>
+          <h1 className="text-2xl font-bold text-app">Bu<em className="italic text-[#8B0000]">gs</em></h1>
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
@@ -104,11 +104,11 @@ export default function BugsPage() {
 
       {/* Summary badges */}
       <div className="flex gap-3 flex-wrap">
-        <div className="bg-[#1a1a2e] border border-gray-800 rounded-lg px-4 py-2 flex items-center gap-2">
+        <div className="card rounded-lg px-4 py-2 flex items-center gap-2">
           <span className="text-gray-400 text-xs">Abertos</span>
-          <span className="text-white font-bold">{counts.open}</span>
+          <span className="text-app font-bold">{counts.open}</span>
         </div>
-        <div className="bg-[#1a1a2e] border border-red-800/40 rounded-lg px-4 py-2 flex items-center gap-2">
+        <div className="card rounded-lg border-red-800/40 px-4 py-2 flex items-center gap-2">
           <span className="text-gray-400 text-xs">Críticos</span>
           <span className="text-red-400 font-bold">{counts.critical}</span>
         </div>
@@ -117,7 +117,7 @@ export default function BugsPage() {
       {/* Filters */}
       <div className="flex flex-wrap gap-3">
         {/* Status group */}
-        <div className="flex rounded-lg overflow-hidden border border-gray-700">
+        <div className="flex rounded-lg overflow-hidden border border-(--border)">
           {[
             { value: 'OPEN_ALL', label: 'Abertos' },
             { value: 'CLOSED_ALL', label: 'Fechados' },
@@ -130,7 +130,7 @@ export default function BugsPage() {
                 'px-3 py-1.5 text-xs transition-colors',
                 statusFilter === opt.value
                   ? 'bg-[#8B0000] text-white'
-                  : 'bg-[#16213e] text-gray-400 hover:text-white',
+                  : 'bg-(--card-deep) text-muted hover:text-app',
               )}
             >
               {opt.label}
@@ -139,7 +139,7 @@ export default function BugsPage() {
         </div>
 
         {/* Severity */}
-        <div className="flex rounded-lg overflow-hidden border border-gray-700">
+        <div className="flex rounded-lg overflow-hidden border border-(--border)">
           {(['ALL', ...Object.values(BugSeverity)] as SeverityFilter[]).map((sev) => (
             <button
               key={sev}
@@ -148,7 +148,7 @@ export default function BugsPage() {
                 'px-3 py-1.5 text-xs transition-colors',
                 severityFilter === sev
                   ? 'bg-[#8B0000] text-white'
-                  : 'bg-[#16213e] text-gray-400 hover:text-white',
+                  : 'bg-(--card-deep) text-muted hover:text-app',
               )}
             >
               {sev === 'ALL' ? 'Todos' : severityConfig[sev].label}
@@ -165,9 +165,9 @@ export default function BugsPage() {
           ))}
         </div>
       ) : bugs.length === 0 ? (
-        <div className="bg-[#1a1a2e] rounded-xl border border-gray-800 p-12 text-center">
+        <div className="card rounded-xl p-12 text-center">
           <p className="text-4xl mb-3">🎉</p>
-          <p className="text-white font-medium">Nenhum bug encontrado</p>
+          <p className="text-app font-medium">Nenhum bug encontrado</p>
           <p className="text-gray-400 text-sm mt-1">Tente outros filtros ou reporte um novo bug</p>
         </div>
       ) : (
@@ -182,8 +182,8 @@ export default function BugsPage() {
               <div
                 key={bug.id}
                 className={cn(
-                  'bg-[#1a1a2e] rounded-xl border transition-colors',
-                  bug.severity === BugSeverity.CRITICAL ? 'border-red-800/50' : 'border-gray-800',
+                  'card rounded-xl border transition-colors',
+                  bug.severity === BugSeverity.CRITICAL ? 'border-red-800/50' : 'border-(--border)',
                 )}
               >
                 {/* Row */}
@@ -192,11 +192,11 @@ export default function BugsPage() {
                   onClick={() => setExpandedId(isExpanded ? null : bug.id)}
                 >
                   {/* Severity dot */}
-                  <div className={cn('w-2 h-2 rounded-full flex-shrink-0', sev.color.replace('text-', 'bg-'))} />
+                  <div className={cn('w-2 h-2 rounded-full shrink-0', sev.color.replace('text-', 'bg-'))} />
 
                   {/* Title */}
                   <div className="flex-1 min-w-0">
-                    <p className="text-white text-sm font-medium truncate">{bug.title}</p>
+                    <p className="text-app text-sm font-medium truncate">{bug.title}</p>
                     <p className="text-gray-500 text-xs">
                       {bug.reporter?.name ?? '—'} · {new Date(bug.createdAt).toLocaleDateString('pt-BR')}
                       {bug.cycleCount > 1 && (
@@ -206,17 +206,17 @@ export default function BugsPage() {
                   </div>
 
                   {/* Severity badge */}
-                  <span className={cn('text-xs px-2 py-0.5 rounded-full border flex-shrink-0', sev.bg, sev.color)}>
+                  <span className={cn('text-xs px-2 py-0.5 rounded-full border shrink-0', sev.bg, sev.color)}>
                     {sev.label}
                   </span>
 
                   {/* Status badge */}
-                  <span className={cn('text-xs px-2 py-0.5 rounded-full flex-shrink-0', sts.color)}>
+                  <span className={cn('text-xs px-2 py-0.5 rounded-full shrink-0', sts.color)}>
                     {sts.label}
                   </span>
 
                   {/* Assignee */}
-                  <span className="text-xs text-gray-500 flex-shrink-0 hidden md:block">
+                  <span className="text-xs text-gray-500 shrink-0 hidden md:block">
                     {bug.assignee?.name ?? 'Sem responsável'}
                   </span>
 
@@ -225,7 +225,7 @@ export default function BugsPage() {
 
                 {/* Expanded detail */}
                 {isExpanded && (
-                  <div className="border-t border-gray-800 px-4 py-4 space-y-3">
+                  <div className="border-t border-(--border) px-4 py-4 space-y-3">
                     {bug.description && (
                       <div>
                         <p className="text-gray-500 text-xs mb-1">Descrição</p>
@@ -235,15 +235,15 @@ export default function BugsPage() {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
                       <div>
                         <p className="text-gray-500 mb-0.5">Ambiente</p>
-                        <p className="text-white">{bug.environment}</p>
+                        <p className="text-app">{bug.environment}</p>
                       </div>
                       <div>
                         <p className="text-gray-500 mb-0.5">Tipo</p>
-                        <p className="text-white">{bug.type}</p>
+                        <p className="text-app">{bug.type}</p>
                       </div>
                       <div>
                         <p className="text-gray-500 mb-0.5">Origem</p>
-                        <p className="text-white">{bug.origin}</p>
+                        <p className="text-app">{bug.origin}</p>
                       </div>
                       {bug.evidenceUrl && (
                         <div>

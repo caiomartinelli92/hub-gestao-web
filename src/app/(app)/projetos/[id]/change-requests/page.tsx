@@ -74,26 +74,26 @@ export default function ChangeRequestsPage() {
     return (
       <div
         className={cn(
-          'bg-[#1a1a2e] rounded-xl border transition-colors',
-          cr.status === CRStatus.CLIENT_APPROVED ? 'border-teal-800/50' : 'border-gray-800',
+          'card rounded-xl border transition-colors',
+          cr.status === CRStatus.CLIENT_APPROVED ? 'border-teal-800/50' : 'border-(--border)',
         )}
       >
         <div
           className="flex items-center gap-3 px-5 py-4 cursor-pointer"
           onClick={() => setExpandedId(isExpanded ? null : cr.id)}
         >
-          <span className="text-lg flex-shrink-0">{sts.icon}</span>
+          <span className="text-lg shrink-0">{sts.icon}</span>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
               <span className="text-gray-500 text-xs">CR-{cr.number}</span>
-              <span className="text-white font-medium text-sm truncate">{cr.title}</span>
+              <span className="text-app font-medium text-sm truncate">{cr.title}</span>
             </div>
             <p className="text-gray-400 text-xs mt-0.5">
               por {cr.createdBy?.name ?? '—'} · {new Date(cr.createdAt).toLocaleDateString('pt-BR')}
             </p>
           </div>
 
-          <div className="flex items-center gap-3 flex-shrink-0">
+          <div className="flex items-center gap-3 shrink-0">
             <span className="text-gray-300 text-xs hidden md:block">
               {cr.costImpact
                 ? cr.costImpact.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
@@ -107,7 +107,7 @@ export default function ChangeRequestsPage() {
         </div>
 
         {isExpanded && (
-          <div className="border-t border-gray-800 px-5 py-4 space-y-4">
+          <div className="border-t border-(--border) px-5 py-4 space-y-4">
             <div>
               <p className="text-gray-500 text-xs mb-1">Descrição</p>
               <p className="text-gray-200 text-sm">{cr.description}</p>
@@ -124,7 +124,7 @@ export default function ChangeRequestsPage() {
               </div>
               <div>
                 <p className="text-gray-500 text-xs mb-1">Custo Adicional</p>
-                <p className="text-white font-medium">
+                <p className="text-app font-medium">
                   {cr.costImpact
                     ? cr.costImpact.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
                     : 'Sem custo'}
@@ -213,7 +213,7 @@ export default function ChangeRequestsPage() {
               ← Projeto
             </Link>
           </div>
-          <h1 className="text-2xl font-bold text-white">📄 Change Requests</h1>
+          <h1 className="text-2xl font-bold text-app">Change <em className="italic text-[#8B0000]">Requests</em></h1>
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
@@ -232,12 +232,12 @@ export default function ChangeRequestsPage() {
               key={status}
               onClick={() => setStatusFilter(statusFilter === status as CRStatus ? 'ALL' : status as CRStatus)}
               className={cn(
-                'bg-[#1a1a2e] border rounded-lg p-2 text-center transition-colors',
-                statusFilter === status ? 'border-[#8B0000]' : 'border-gray-800 hover:border-gray-600',
+                'card rounded-lg p-2 text-center transition-colors',
+                statusFilter === status ? 'border-[#8B0000]' : 'border-(--border) hover:border-(--border)',
               )}
             >
               <p className="text-lg">{cfg.icon}</p>
-              <p className="text-white font-bold text-sm">{count}</p>
+              <p className="text-app font-bold text-sm">{count}</p>
               <p className="text-gray-400 text-xs leading-tight">{cfg.label}</p>
             </button>
           );
@@ -251,9 +251,9 @@ export default function ChangeRequestsPage() {
           ))}
         </div>
       ) : crs.length === 0 ? (
-        <div className="bg-[#1a1a2e] rounded-xl border border-gray-800 p-12 text-center">
+        <div className="card rounded-xl p-12 text-center">
           <p className="text-3xl mb-3">📄</p>
-          <p className="text-white font-medium">Nenhuma Change Request</p>
+          <p className="text-app font-medium">Nenhuma Change Request</p>
           <p className="text-gray-400 text-sm mt-1">Registre mudanças de escopo solicitadas pelo cliente</p>
         </div>
       ) : (

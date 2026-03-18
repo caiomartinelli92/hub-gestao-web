@@ -56,7 +56,7 @@ export function BugTriageSuggestionCard({
         </div>
         <div>
           <p className="text-xs text-gray-500 mb-1">Tipo</p>
-          <span className="text-xs px-2 py-1 rounded bg-gray-800 text-gray-300 border border-gray-700">
+          <span className="text-xs px-2 py-1 rounded bg-gray-800 text-gray-300 border border-(--border)">
             {suggestion.type}
           </span>
         </div>

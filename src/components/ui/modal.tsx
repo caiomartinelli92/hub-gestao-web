@@ -34,26 +34,26 @@ export function Modal({ open, onClose, title, subtitle, children, size = 'md' }:
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
         onClick={onClose}
       />
 
       {/* Panel */}
       <div
         className={cn(
-          'relative w-full bg-[#1a1a2e] border border-gray-700 rounded-2xl shadow-2xl flex flex-col max-h-[90vh]',
+          'relative w-full card border border-app rounded-2xl shadow-2xl flex flex-col max-h-[90vh]',
           sizeClass[size],
         )}
       >
         {/* Header */}
-        <div className="flex items-start justify-between px-6 py-5 border-b border-gray-800">
+        <div className="flex items-start justify-between px-6 py-5 border-b border-app">
           <div>
-            <h2 className="text-white font-semibold text-lg">{title}</h2>
-            {subtitle && <p className="text-gray-400 text-sm mt-0.5">{subtitle}</p>}
+            <h2 className="text-app font-semibold text-lg">{title}</h2>
+            {subtitle && <p className="text-muted text-sm mt-0.5">{subtitle}</p>}
           </div>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-white transition-colors text-xl leading-none ml-4 mt-0.5"
+            className="text-muted hover:text-app transition-colors text-xl leading-none ml-4 mt-0.5"
           >
             ✕
           </button>
@@ -81,22 +81,22 @@ interface FieldProps {
 export function Field({ label, required, children, hint, error }: FieldProps) {
   return (
     <div className="space-y-1">
-      <label className="block text-sm font-medium text-gray-300">
+      <label className="block text-sm font-medium text-app">
         {label}
-        {required && <span className="text-[#8B0000] ml-1">*</span>}
+        {required && <span className="text-(--primary) ml-1">*</span>}
       </label>
       {children}
-      {hint && <p className="text-xs text-gray-500">{hint}</p>}
+      {hint && <p className="text-xs text-muted">{hint}</p>}
       {error && <p className="text-xs text-red-400">{error}</p>}
     </div>
   );
 }
 
 export const inputClass =
-  'w-full bg-[#16213e] border border-gray-700 rounded-lg px-3 py-2 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-[#8B0000] transition-colors';
+  'w-full bg-(--card) border border-app rounded-lg px-3 py-2 text-app text-sm placeholder:text-muted focus:outline-none focus:border-(--primary) transition-colors';
 
 export const selectClass =
-  'w-full bg-[#16213e] border border-gray-700 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-[#8B0000] transition-colors';
+  'w-full bg-(--card) border border-app rounded-lg px-3 py-2 text-app text-sm focus:outline-none focus:border-(--primary) transition-colors';
 
 export const textareaClass =
-  'w-full bg-[#16213e] border border-gray-700 rounded-lg px-3 py-2 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-[#8B0000] transition-colors resize-none';
+  'w-full bg-(--card) border border-app rounded-lg px-3 py-2 text-app text-sm placeholder:text-muted focus:outline-none focus:border-(--primary) transition-colors resize-none';

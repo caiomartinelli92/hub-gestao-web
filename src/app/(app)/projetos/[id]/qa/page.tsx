@@ -117,37 +117,37 @@ export default function QAPage() {
               ← Projeto
             </Link>
           </div>
-          <h1 className="text-2xl font-bold text-white">🧪 QA</h1>
+          <h1 className="text-2xl font-bold text-app">Q<em className="italic text-[#8B0000]">A</em></h1>
         </div>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-4 gap-3">
-        <div className="bg-[#1a1a2e] border border-gray-800 rounded-xl p-4 text-center">
-          <p className="text-white font-bold text-xl">{execStats.total}</p>
+        <div className="card rounded-xl p-4 text-center">
+          <p className="text-app font-bold text-xl">{execStats.total}</p>
           <p className="text-gray-400 text-xs mt-1">Total</p>
         </div>
-        <div className="bg-[#1a1a2e] border border-gray-800 rounded-xl p-4 text-center">
+        <div className="card rounded-xl p-4 text-center">
           <p className="text-green-400 font-bold text-xl">{execStats.pass}</p>
           <p className="text-gray-400 text-xs mt-1">Passaram</p>
         </div>
-        <div className="bg-[#1a1a2e] border border-gray-800 rounded-xl p-4 text-center">
+        <div className="card rounded-xl p-4 text-center">
           <p className="text-red-400 font-bold text-xl">{execStats.fail}</p>
           <p className="text-gray-400 text-xs mt-1">Falharam</p>
         </div>
-        <div className="bg-[#1a1a2e] border border-gray-800 rounded-xl p-4 text-center">
+        <div className="card rounded-xl p-4 text-center">
           <p className="text-amber-400 font-bold text-xl">{execStats.running}</p>
           <p className="text-gray-400 text-xs mt-1">Em andamento</p>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex rounded-lg overflow-hidden border border-gray-700 w-fit">
+      <div className="flex rounded-lg overflow-hidden border border-(--border) w-fit">
         <button
           onClick={() => setTab('executions')}
           className={cn(
             'px-5 py-2 text-sm transition-colors',
-            tab === 'executions' ? 'bg-[#8B0000] text-white' : 'bg-[#16213e] text-gray-400 hover:text-white',
+            tab === 'executions' ? 'bg-[#8B0000] text-white' : 'bg-(--card-deep) text-muted hover:text-app',
           )}
         >
           Execuções
@@ -156,7 +156,7 @@ export default function QAPage() {
           onClick={() => setTab('scenarios')}
           className={cn(
             'px-5 py-2 text-sm transition-colors',
-            tab === 'scenarios' ? 'bg-[#8B0000] text-white' : 'bg-[#16213e] text-gray-400 hover:text-white',
+            tab === 'scenarios' ? 'bg-[#8B0000] text-white' : 'bg-(--card-deep) text-muted hover:text-app',
           )}
         >
           Cenários de Teste
@@ -169,9 +169,9 @@ export default function QAPage() {
           {execLoading ? (
             [...Array(4)].map((_, i) => <div key={i} className="h-14 bg-gray-800/50 rounded-xl animate-pulse" />)
           ) : executions.length === 0 ? (
-            <div className="bg-[#1a1a2e] rounded-xl border border-gray-800 p-12 text-center">
+            <div className="card rounded-xl p-12 text-center">
               <p className="text-3xl mb-3">🧪</p>
-              <p className="text-white font-medium">Nenhuma execução de teste</p>
+              <p className="text-app font-medium">Nenhuma execução de teste</p>
               <p className="text-gray-400 text-sm mt-1">Inicie execuções nas tarefas do backlog</p>
             </div>
           ) : (
@@ -180,18 +180,18 @@ export default function QAPage() {
               const isFinishing = finishingId === exec.id;
 
               return (
-                <div key={exec.id} className="bg-[#1a1a2e] rounded-xl border border-gray-800">
+                <div key={exec.id} className="card rounded-xl border border-(--border)">
                   <div
                     className="flex items-center gap-3 px-4 py-3 cursor-pointer"
                     onClick={() => setExpandedId(isExpanded ? null : exec.id)}
                   >
                     <div className={cn(
-                      'w-2 h-2 rounded-full flex-shrink-0',
+                      'w-2 h-2 rounded-full shrink-0',
                       !exec.result ? 'bg-amber-400' :
                       exec.result === 'PASS' ? 'bg-green-400' : 'bg-red-400',
                     )} />
                     <div className="flex-1 min-w-0">
-                      <p className="text-white text-sm truncate">
+                      <p className="text-app text-sm truncate">
                         {exec.task?.title ?? exec.taskId}
                       </p>
                       <p className="text-gray-400 text-xs">
@@ -200,17 +200,17 @@ export default function QAPage() {
                       </p>
                     </div>
                     {exec.result ? (
-                      <span className={cn('text-xs flex-shrink-0', resultConfig[exec.result].color)}>
+                      <span className={cn('text-xs shrink-0', resultConfig[exec.result].color)}>
                         {resultConfig[exec.result].label}
                       </span>
                     ) : (
-                      <span className="text-xs text-amber-400 flex-shrink-0">Em andamento</span>
+                      <span className="text-xs text-amber-400 shrink-0">Em andamento</span>
                     )}
                     <span className="text-gray-600 text-xs">{isExpanded ? '▲' : '▼'}</span>
                   </div>
 
                   {isExpanded && (
-                    <div className="border-t border-gray-800 px-4 py-3 space-y-3">
+                    <div className="border-t border-(--border) px-4 py-3 space-y-3">
                       {exec.notes && (
                         <p className="text-gray-200 text-sm">{exec.notes}</p>
                       )}
@@ -233,7 +233,7 @@ export default function QAPage() {
                                   'px-3 py-1.5 text-xs rounded-lg border transition-colors',
                                   finishResult === r
                                     ? 'border-[#8B0000] bg-[#8B0000]/30 text-white'
-                                    : 'border-gray-700 bg-gray-800 text-gray-300 hover:border-gray-500',
+                                    : 'border-(--border) bg-gray-800 text-gray-300 hover:border-gray-500',
                                 )}
                               >
                                 {resultConfig[r].label}
@@ -245,7 +245,7 @@ export default function QAPage() {
                             onChange={(e) => setFinishNotes(e.target.value)}
                             placeholder="Observações (opcional)"
                             rows={2}
-                            className="w-full bg-[#16213e] border border-gray-700 rounded px-3 py-2 text-white text-xs resize-none focus:outline-none focus:border-[#8B0000]"
+                            className="w-full bg-(--card-deep) border border-(--border) rounded px-3 py-2 text-app text-xs resize-none focus:outline-none focus:border-[#8B0000]"
                           />
                           <div className="flex gap-2">
                             <button
@@ -279,9 +279,9 @@ export default function QAPage() {
           {scenariosLoading ? (
             [...Array(4)].map((_, i) => <div key={i} className="h-14 bg-gray-800/50 rounded-xl animate-pulse" />)
           ) : scenarios.length === 0 ? (
-            <div className="bg-[#1a1a2e] rounded-xl border border-gray-800 p-12 text-center">
+            <div className="card rounded-xl p-12 text-center">
               <p className="text-3xl mb-3">🤖</p>
-              <p className="text-white font-medium">Nenhum cenário de teste</p>
+              <p className="text-app font-medium">Nenhum cenário de teste</p>
               <p className="text-gray-400 text-sm mt-1">Gere cenários com IA nas stories do backlog</p>
             </div>
           ) : (
@@ -290,16 +290,16 @@ export default function QAPage() {
               const isExpanded = expandedId === scenario.id;
 
               return (
-                <div key={scenario.id} className="bg-[#1a1a2e] rounded-xl border border-gray-800">
+                <div key={scenario.id} className="card rounded-xl border border-(--border)">
                   <div
                     className="flex items-center gap-3 px-4 py-3 cursor-pointer"
                     onClick={() => setExpandedId(isExpanded ? null : scenario.id)}
                   >
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <p className="text-white text-sm truncate">{scenario.title}</p>
+                        <p className="text-app text-sm truncate">{scenario.title}</p>
                         {scenario.isAiGenerated && (
-                          <span className="text-xs bg-purple-900/30 text-purple-300 px-1.5 py-0.5 rounded flex-shrink-0">
+                          <span className="text-xs bg-purple-900/30 text-purple-300 px-1.5 py-0.5 rounded shrink-0">
                             🤖 IA
                           </span>
                         )}
@@ -308,14 +308,14 @@ export default function QAPage() {
                         {scenario.scopeItem?.title ?? scenario.scopeItemId}
                       </p>
                     </div>
-                    <span className={cn('text-xs px-2 py-0.5 rounded-full flex-shrink-0', sts.color)}>
+                    <span className={cn('text-xs px-2 py-0.5 rounded-full shrink-0', sts.color)}>
                       {sts.label}
                     </span>
                     <span className="text-gray-600 text-xs">{isExpanded ? '▲' : '▼'}</span>
                   </div>
 
                   {isExpanded && (
-                    <div className="border-t border-gray-800 px-4 py-3 space-y-3">
+                    <div className="border-t border-(--border) px-4 py-3 space-y-3">
                       {scenario.description && (
                         <p className="text-gray-200 text-sm">{scenario.description}</p>
                       )}
