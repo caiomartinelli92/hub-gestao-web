@@ -9,17 +9,20 @@ export enum Role {
 }
 
 export enum ProjectStatus {
-  PLANNING = 'PLANNING',
-  ACTIVE = 'ACTIVE',
-  PAUSED = 'PAUSED',
-  COMPLETED = 'COMPLETED',
+  PRE_PROJECT = 'PRE_PROJECT',
+  KICKOFF = 'KICKOFF',
+  DISCOVERY = 'DISCOVERY',
+  DEVELOPMENT = 'DEVELOPMENT',
+  QA = 'QA',
+  PRODUCTION = 'PRODUCTION',
+  MAINTENANCE = 'MAINTENANCE',
   CANCELLED = 'CANCELLED',
 }
 
 export enum ProjectHealth {
   ON_TRACK = 'ON_TRACK',
+  ATTENTION = 'ATTENTION',
   AT_RISK = 'AT_RISK',
-  CRITICAL = 'CRITICAL',
 }
 
 export enum ScopeItemType {
@@ -39,15 +42,16 @@ export enum ScopeItemStatus {
 export enum TaskStatus {
   TODO = 'TODO',
   IN_PROGRESS = 'IN_PROGRESS',
-  IN_REVIEW = 'IN_REVIEW',
   READY_FOR_QA = 'READY_FOR_QA',
+  IN_TEST = 'IN_TEST',
+  IN_CORRECTION = 'IN_CORRECTION',
   DONE = 'DONE',
 }
 
 export enum SprintStatus {
   FUTURE = 'FUTURE',
   ACTIVE = 'ACTIVE',
-  COMPLETED = 'COMPLETED',
+  COMPLETED = 'CLOSED',
   CANCELLED = 'CANCELLED',
 }
 
@@ -127,10 +131,15 @@ export interface ApiError {
 
 export interface Client {
   id: string;
-  companyName: string;
-  contactName: string;
-  contactEmail: string;
+  company: string;
+  name: string;
+  email: string;
+  phone?: string;
+  role?: string;
+  sector?: string;
   status: string;
+  revenue?: number;
+  notes?: string;
   createdAt: string;
 }
 
@@ -153,6 +162,10 @@ export interface Project {
   createdAt: string;
   updatedAt: string;
   members?: ProjectMember[];
+  // Campos computados (retornados pela API em algumas rotas)
+  progress?: number;
+  openBugsCount?: number;
+  currentSprintName?: string;
 }
 
 export interface ProjectMember {

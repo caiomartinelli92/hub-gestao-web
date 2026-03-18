@@ -1,21 +1,61 @@
 @import "tailwindcss";
 
+/* Theme variables (switched by data-theme attribute on <html>) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0d0d1f;   /* very dark navy — page bg */
+  --foreground: #e5e7eb;
+  --muted: #9ca3af;
+  --border: #26264a;
+  --card: #1a1a30;         /* card surface — noticeably lighter than bg */
+  --card-deep: #131326;   /* deep nested elements, inputs */
+  --primary: #8B0000;
+  --header-bg: #14142a;
+  --sidebar-bg: #0d0d1f;  /* sidebar always dark — not switched in light mode */
+  --surface: #252540;      /* chips, badges, botões secundários, skeletons */
+  --stripe: rgba(0,0,0,0.04); /* zebra rows, table headers */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+[data-theme="light"] {
+  --background: #f3f4f6;
+  --foreground: #111827;
+  --muted: #6b7280;
+  --border: #e2e8f0;
+  --card: #ffffff;
+  --card-deep: #f9fafb;
+  --primary: #8B0000;
+  --header-bg: #ffffff;
+  --surface: #f1f5f9;
+  --stripe: rgba(0,0,0,0.03);
+}
+
+/* Respect system preference for first load when data-theme is not set */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --background: #f3f4f6;
+    --foreground: #111827;
+    --muted: #6b7280;
+    --border: #e2e8f0;
+    --card: #ffffff;
+    --card-deep: #f9fafb;
+    --primary: #8B0000;
+    --header-bg: #ffffff;
+    --surface: #f1f5f9;
+    --stripe: rgba(0,0,0,0.03);
+  }
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme]) {
+    --background: #0d0d1f;
+    --foreground: #e5e7eb;
+    --muted: #9ca3af;
+    --border: #26264a;
+    --card: #1a1a30;
+    --card-deep: #131326;
+    --primary: #8B0000;
+    --header-bg: #14142a;
+    --surface: #252540;
+    --stripe: rgba(0,0,0,0.04);
   }
 }
 
@@ -24,3 +64,98 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Utility classes to use CSS variables where convenient */
+.bg-app       { background: var(--background); }
+.bg-card      { background: var(--card); }
+.bg-card-deep { background: var(--card-deep); }
+.card         { background: var(--card); border-color: var(--border); }
+.text-muted   { color: var(--muted); }
+.border-app   { border-color: var(--border); }
+.text-app     { color: var(--foreground); }
+.bg-surface   { background-color: var(--surface); }
+.bg-stripe    { background-color: var(--stripe); }
+/* skeleton loader — use instead of bg-gray-800/50 animate-pulse */
+.skeleton     { background-color: var(--surface); animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite; }
+
+/* ── Light-mode background overrides (compatibility) ───────────────────────
+   bg-gray-800 and variants are used throughout for badges, skeletons and
+   secondary buttons. In light mode they must map to --surface instead of
+   staying near-black. Using !important because Tailwind utility classes
+   have high specificity.
+─────────────────────────────────────────────────────────────────────────── */
+[data-theme="light"] .bg-gray-800    { background-color: var(--surface) !important; }
+[data-theme="light"] .bg-gray-900    { background-color: var(--card-deep) !important; }
+[data-theme="light"] .bg-gray-800\/10 { background-color: color-mix(in srgb, var(--surface) 10%, transparent) !important; }
+[data-theme="light"] .bg-gray-800\/20 { background-color: color-mix(in srgb, var(--surface) 20%, transparent) !important; }
+[data-theme="light"] .bg-gray-800\/30 { background-color: color-mix(in srgb, var(--surface) 30%, transparent) !important; }
+[data-theme="light"] .bg-gray-800\/40 { background-color: color-mix(in srgb, var(--surface) 40%, transparent) !important; }
+[data-theme="light"] .bg-gray-800\/50 { background-color: color-mix(in srgb, var(--surface) 50%, transparent) !important; }
+[data-theme="light"] .bg-gray-700    { background-color: var(--surface) !important; }
+[data-theme="light"] .hover\:bg-gray-700:hover { background-color: color-mix(in srgb, var(--surface) 80%, #000 20%) !important; }
+[data-theme="light"] .hover\:bg-gray-800:hover { background-color: var(--surface) !important; }
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) .bg-gray-800    { background-color: var(--surface) !important; }
+  :root:not([data-theme]) .bg-gray-900    { background-color: var(--card-deep) !important; }
+  :root:not([data-theme]) .bg-gray-800\/30 { background-color: color-mix(in srgb, var(--surface) 30%, transparent) !important; }
+  :root:not([data-theme]) .bg-gray-800\/40 { background-color: color-mix(in srgb, var(--surface) 40%, transparent) !important; }
+  :root:not([data-theme]) .bg-gray-800\/50 { background-color: color-mix(in srgb, var(--surface) 50%, transparent) !important; }
+  :root:not([data-theme]) .bg-gray-700    { background-color: var(--surface) !important; }
+}
+
+/* ── Light-mode text overrides ─────────────────────────────────────────────
+   In dark mode gray-100/200/300 are light colors readable on dark cards.
+   In light mode they become invisible on white cards → map to foreground.
+   text-white on colored buttons/badges/avatars stays white (those elements
+   keep their own background so contrast is maintained).
+─────────────────────────────────────────────────────────────────────────── */
+[data-theme="light"] .text-gray-100 { color: var(--foreground); }
+[data-theme="light"] .text-gray-200 { color: var(--foreground); }
+[data-theme="light"] .text-gray-300 { color: #374151; }
+[data-theme="light"] .text-gray-400 { color: #4b5563; }
+[data-theme="light"] .text-gray-500 { color: #6b7280; }
+[data-theme="light"] .text-gray-600 { color: #6b7280; }
+
+/* text-white on card surfaces (not on buttons/badges) → adapt */
+[data-theme="light"] .on-card       { color: var(--foreground); }
+
+/* ── Sidebar always dark — restore dark-mode text colors ───────────────────
+   The sidebar never changes theme (bg is always #1a1a2e), so the light-mode
+   gray overrides above must not apply inside it.
+─────────────────────────────────────────────────────────────────────────── */
+[data-theme="light"] [data-sidebar] .text-gray-100,
+[data-theme="light"] [data-sidebar] .text-gray-200 { color: #e5e7eb; }
+[data-theme="light"] [data-sidebar] .text-gray-300 { color: #d1d5db; }
+[data-theme="light"] [data-sidebar] .text-gray-400 { color: #9ca3af; }
+[data-theme="light"] [data-sidebar] .text-gray-500 { color: #6b7280; }
+[data-theme="light"] [data-sidebar] .text-gray-600 { color: #4b5563; }
+
+/* CR public page card */
+.cr-card {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid rgba(0,0,0,0.06);
+  overflow: hidden;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.06);
+}
+
+/* Input style used across forms — adapts to theme */
+.input-dark {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--card-deep);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--foreground);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.input-dark:focus {
+  border-color: #8B0000;
+}
+.input-dark option {
+  background: var(--card-deep);
+}
+
